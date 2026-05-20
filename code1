@@ -1,0 +1,41 @@
+def search_anagram(sorted_random_word, new_dictionary):
+  anagram=[]
+  left=0
+  right=len(new_dictionary)-1
+  while left<=right:
+    middle=(left+right)//2
+    if sorted_random_word<new_dictionary[middle][0]:
+      right=middle-1
+      continue
+    elif sorted_random_word>new_dictionary[middle][0]:
+      left=middle+1
+      continue
+    else:
+      start=middle
+      end=middle
+      while start>=0 and end<len(new_dictionary):
+        for i in range(middle-left):
+          if(sorted_random_word!=new_dictionary[start][0]):
+            break
+          start-=1
+        for i in range(right-middle):
+          if(sorted_random_word!=new_dictionary[end][0]):
+            break
+          end+=1
+        for i in range(start, end+1):
+          anagram.append(new_dictionary[i][1])
+          return anagram
+  return []
+
+def search_word(random_word, dictionary):
+  sorted_random_word = sorted(random_word)
+  new_dictionary = []
+  for word in dictionary:
+    new_dictionary.append((sorted(word), word))
+  new_dictionary.sort()
+  anagram=search_anagram(sorted_random_word, new_dictionary)
+  return anagram
+
+random_word=input()
+dictionary=input().split()
+print(search_word(random_word, dictionary))
